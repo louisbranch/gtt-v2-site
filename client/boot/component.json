@@ -1,4 +1,10 @@
 {
   "name": "boot",
-  "scripts": ["index.js"]
+  "scripts": ["index.js"],
+  "locals": ["header"],
+  "dependencies": {
+    "components/jquery": "*",
+    "marionettejs/backbone.marionette": "^1.8.5",
+    "jashkenas/backbone": "^1.1.2"
+  }
 }
