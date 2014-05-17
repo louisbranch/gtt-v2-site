@@ -1,5 +1,5 @@
 {
-  "name": "header",
+  "name": "menu",
   "scripts": ["index.js"],
   "dependencies": {
     "marionettejs/backbone.marionette": "^1.8.5"

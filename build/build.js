@@ -15242,27 +15242,71 @@ require.register("marionettejs~backbone.marionette@v1.8.5", function (exports, m
 
 });
 
-require.register("./client/header", function (exports, module) {
-var Backbone = require("marionettejs~backbone.marionette@v1.8.5");
+require.register("./client/menu", function (exports, module) {
+var Marionette = require("marionettejs~backbone.marionette@v1.8.5");
 
-module.exports = Backbone.ItemView.extend({
-  tagName: "header",
-  template: "#template-header"
+module.exports = Marionette.ItemView.extend({
+  template: "#template-menu"
+});
+
+function stringToColor(str) {
+  var hash = 0;
+  var color = '#';
+
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  for (var i = 0; i < 3; i++) {
+    var value = (hash >> (i * 8)) & 0xFF;
+    color += ('00' + value.toString(16)).substr(-2);
+  }
+  return color;
+}
+
+});
+
+require.register("./client/app", function (exports, module) {
+var $ = require("components~jquery@2.1.0");
+var Backbone = require("jashkenas~backbone@1.1.2");
+var Marionette = require("marionettejs~backbone.marionette@v1.8.5");
+var Layout = require("./client/app/layout.js");
+var Menu = require("./client/menu");
+
+Backbone.$ = Marionette.$ = $; // Fix for missing dependency
+
+var App = new Marionette.Application();
+
+App.addInitializer(function () {
+  var layout = new Layout();
+  $("body").append(layout.render().el);
+  layout.menu.show(new Menu());
+
+  Backbone.history.start();
+});
+
+module.exports = App;
+
+});
+
+require.register("./client/app/layout.js", function (exports, module) {
+var Marionette = require("marionettejs~backbone.marionette@v1.8.5");
+
+module.exports = Marionette.Layout.extend({
+  template: "#template-app-layout",
+
+  regions: {
+    menu: "#gtt-menu",
+    content: "#gtt-container"
+  }
 });
 
 });
 
 require.register("./client/boot", function (exports, module) {
-var $ = require("components~jquery@2.1.0");
-var Backbone = require("jashkenas~backbone@1.1.2");
-var Marionette = require("marionettejs~backbone.marionette@v1.8.5");
-var HeaderView = require("./client/header");
+var App = require("./client/app");
 
-Backbone.$ = Marionette.$ = $; // Fix for missing dependency
-
-var header = new HeaderView();
-
-$("body").append(header.render().el);
+App.start();
 
 });
 

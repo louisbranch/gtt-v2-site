@@ -1,10 +1,3 @@
-var $ = require("jquery");
-var Backbone = require("backbone");
-var Marionette = require("backbone.marionette");
-var HeaderView = require("header");
+var App = require("app");
 
-Backbone.$ = Marionette.$ = $; // Fix for missing dependency
-
-var header = new HeaderView();
-
-$("body").append(header.render().el);
+App.start();
