@@ -4,8 +4,9 @@ var SERVER = "http://localhost:8080/v1";
 module.exports = function *(next) {
   var email = this.session.email || "me@luizbranco.com";
   var token = this.session.token || "5c4dcc622e5a2f3bf6556c35c3ce672b";
+  var url = "/projects?email=" + email + "&token=" + token;
   if (email && token) {
-    this.projects = yield get("/projects?email=" + email + "&token=" + token, this);
+    this.projects = yield get(url, this);
     yield next;
   } else {
     yield this.render('index');
@@ -13,7 +14,14 @@ module.exports = function *(next) {
 };
 
 function *get(url, ctx) {
-  var result = yield request.get(SERVER + url);
-  if (result.statusCode !== 200) throw result.body;
+  var result;
+  try {
+    result = yield request.get(SERVER + url);
+  } catch (e) {
+    ctx.throw("gtt server is offline, try again later");
+  }
+  if (result.statusCode !== 200) {
+    ctx.throw(result.body, result.statusCode);
+  }
   return result.body;
 }
