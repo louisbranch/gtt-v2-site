@@ -9,6 +9,7 @@ var app = module.exports = koa();
 
 var dashboard = require("./server/controllers/dashboard");
 var login = require("./server/controllers/login");
+var logout = require("./server/controllers/logout");
 var auth = require("./server/policies/authenticate");
 
 // Middlewares ----------------------------- //
@@ -28,5 +29,7 @@ app.get("/", auth, dashboard);
 
 app.get("/login", login.get);
 app.post("/login", body(), login.post);
+
+app.get("/logout", logout);
 
 app.listen(3000);
