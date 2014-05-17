@@ -1,5 +1,5 @@
 var request = require("co-request");
-var SERVER = "http://localhost:8080/v1";
+var SERVER = require("../../config").server;
 
 module.exports = function* (method, url, ctx) {
   var result;
