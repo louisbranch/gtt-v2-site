@@ -18,7 +18,8 @@ var signup = require("./server/controllers/signup");
 
 app.keys = [config.secret];
 app.use(hbs.middleware({
-  viewPath: __dirname + "/views"
+  viewPath: __dirname + "/views",
+  defaultLayout: "layout"
 }));
 app.use(session());
 app.use(router(app));
