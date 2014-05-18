@@ -15246,7 +15246,11 @@ require.register("./client/menu", function (exports, module) {
 var Marionette = require("marionettejs~backbone.marionette@v1.8.5");
 
 module.exports = Marionette.ItemView.extend({
-  template: "#template-menu"
+  template: "#template-menu",
+
+  serialize: function () {
+    return { collection: this.collection.toJSON() };
+  }
 });
 
 function stringToColor(str) {
@@ -15275,17 +15279,18 @@ var Menu = require("./client/menu");
 
 Backbone.$ = Marionette.$ = $; // Fix for missing dependency
 
-var App = new Marionette.Application();
+var App = module.exports = new Marionette.Application();
+
+var layout = new Layout();
+
+var projects = new Backbone.Collection(window.GTT.projects);
+var menu = new Menu({collection: projects});
 
 App.addInitializer(function () {
-  var layout = new Layout();
   $("body").append(layout.render().el);
-  layout.menu.show(new Menu());
-
+  layout.menu.show(menu);
   Backbone.history.start();
 });
-
-module.exports = App;
 
 });
 

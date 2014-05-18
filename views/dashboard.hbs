@@ -9,11 +9,17 @@
       gtt projects
     </a>
     <ul>
-      <% _.each({{{projects}}}, function(project) { %>
+      <% _.each(items, function(project) { %>
         <li><a href="/projects/<%= project.name %>"><%= project.name %></a></li>
       <% }); %>
     </ul>
     <a href="/logout">logout</a>
   </nav>
 </script>
-<script src="build.js"></script>
+<script>
+  window.GTT = {
+    projects: {{{projects}}}
+  };
+</script>
+<script src="build.js">
+</script>

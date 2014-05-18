@@ -1,7 +1,11 @@
 var Marionette = require("backbone.marionette");
 
 module.exports = Marionette.ItemView.extend({
-  template: "#template-menu"
+  template: "#template-menu",
+
+  serialize: function () {
+    return { collection: this.collection.toJSON() };
+  }
 });
 
 function stringToColor(str) {
