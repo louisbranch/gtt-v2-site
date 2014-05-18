@@ -7,10 +7,11 @@ var body = require("koa-body");
 var hbs = require("koa-hbs");
 var app = module.exports = koa();
 
+var auth = require("./server/policies/authenticate");
 var dashboard = require("./server/controllers/dashboard");
 var login = require("./server/controllers/login");
 var logout = require("./server/controllers/logout");
-var auth = require("./server/policies/authenticate");
+var signup = require("./server/controllers/signup");
 
 // Middlewares ----------------------------- //
 
@@ -31,5 +32,8 @@ app.get("/login", login.get);
 app.post("/login", body(), login.post);
 
 app.get("/logout", logout);
+
+app.get("/signup", signup.get);
+app.post("/signup", body(), signup.post);
 
 app.listen(3000);
