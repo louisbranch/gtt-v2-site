@@ -15248,9 +15248,12 @@ var Marionette = require("marionettejs~backbone.marionette@v1.8.5");
 module.exports = Marionette.ItemView.extend({
   template: "#template-menu",
 
-  serialize: function () {
-    return { collection: this.collection.toJSON() };
+  templateHelpers: {
+    projects: function () {
+      return window.GTT.projects;
+    }
   }
+
 });
 
 function stringToColor(str) {
@@ -15270,12 +15273,76 @@ function stringToColor(str) {
 
 });
 
+require.register("./client/projects", function (exports, module) {
+var _ = require("jashkenas~underscore@1.6.0");
+var Backbone = require("jashkenas~backbone@1.1.2");
+var Project = require("./client/projects/model.js");
+var View = require("./client/projects/view.js");
+
+module.exports = Backbone.Router.extend({
+
+  initialize: function (options) {
+    this.App = options.App;
+    this.projects = window.GTT.projects;
+  },
+
+  routes: {
+    "": "index",
+    "/projects": "index",
+    "/projects/new": "create",
+    "/projects/:name": "show"
+  },
+
+  index: function () {
+    var project = _.first(this.projects);
+    if (project) {
+      this.App.vent.trigger("navigate", "/projects/" + project);
+    } else {
+      this.create();
+    }
+  },
+
+  show: function (name) {
+    var model = new Project({name: name});
+    //this.App.vent.trigger("render:content", view);
+  },
+
+  create: function () {
+    var model = new Project();
+    var view = new View({model: model});
+    this.App.vent.trigger("render:content", view);
+  }
+
+});
+
+});
+
+require.register("./client/projects/model.js", function (exports, module) {
+var Backbone = require("jashkenas~backbone@1.1.2");
+
+module.exports = Backbone.Model.extend({
+  id: "name",
+  urlRoot: "/projects"
+});
+
+});
+
+require.register("./client/projects/view.js", function (exports, module) {
+var Marionette = require("marionettejs~backbone.marionette@v1.8.5");
+
+module.exports = Marionette.ItemView.extend({
+  template: "#template-project-form"
+});
+
+});
+
 require.register("./client/app", function (exports, module) {
 var $ = require("components~jquery@2.1.0");
 var Backbone = require("jashkenas~backbone@1.1.2");
 var Marionette = require("marionettejs~backbone.marionette@v1.8.5");
 var Layout = require("./client/app/layout.js");
 var Menu = require("./client/menu");
+var Projects = require("./client/projects");
 
 Backbone.$ = Marionette.$ = $; // Fix for missing dependency
 
@@ -15283,13 +15350,17 @@ var App = module.exports = new Marionette.Application();
 
 var layout = new Layout();
 
-var projects = new Backbone.Collection(window.GTT.projects);
-var menu = new Menu({collection: projects});
+var menu = new Menu();
 
 App.addInitializer(function () {
   $("body").append(layout.render().el);
   layout.menu.show(menu);
+  new Projects({App: App});
   Backbone.history.start();
+});
+
+App.vent.on("render:content", function (view) {
+  layout.content.show(view);
 });
 
 });

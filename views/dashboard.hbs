@@ -9,12 +9,23 @@
       gtt projects
     </a>
     <ul>
-      <% _.each(items, function(project) { %>
-        <li><a href="/projects/<%= project.name %>"><%= project.name %></a></li>
+      <% _.each(projects(), function(project) { %>
+        <li><a href="/projects/<%= project %>"><%= project %></a></li>
       <% }); %>
     </ul>
     <a href="/logout">logout</a>
   </nav>
+</script>
+<script type="html/template" id="template-project-form">
+  <h1>Project</h1>
+  <form>
+    <input type="text" name="name" placeholder="name" />
+    <input type="text" name="name" placeholder="currency [usd]" />
+    <input type="text" name="name" placeholder="rate [0]" />
+    <button type="submit">Save</button>
+  </form>
+</script>
+<script type="html/template" id="template-project-days">
 </script>
 <script>
   window.GTT = {

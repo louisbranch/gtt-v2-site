@@ -3,9 +3,12 @@ var Marionette = require("backbone.marionette");
 module.exports = Marionette.ItemView.extend({
   template: "#template-menu",
 
-  serialize: function () {
-    return { collection: this.collection.toJSON() };
+  templateHelpers: {
+    projects: function () {
+      return window.GTT.projects;
+    }
   }
+
 });
 
 function stringToColor(str) {

@@ -1,18 +1,16 @@
 {
-  "name": "app",
+  "name": "projects",
   "scripts": [
     "index.js",
-    "layout.js"
+    "model.js",
+    "view.js"
   ],
   "styles": [
   ],
-  "locals": [
-    "menu",
-    "projects"
-  ],
   "dependencies": {
-    "components/jquery": "*",
+    "jashkenas/underscore": "*",
     "marionettejs/backbone.marionette": "^1.8.5",
     "jashkenas/backbone": "^1.1.2"
   }
 }
+
