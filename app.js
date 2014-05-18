@@ -7,6 +7,7 @@ var body = require("koa-body");
 var hbs = require("koa-hbs");
 var app = module.exports = koa();
 
+var config = require("./config");
 var auth = require("./server/policies/authenticate");
 var dashboard = require("./server/controllers/dashboard");
 var login = require("./server/controllers/login");
@@ -15,7 +16,7 @@ var signup = require("./server/controllers/signup");
 
 // Middlewares ----------------------------- //
 
-app.keys = ["secret"];
+app.keys = [config.secret];
 app.use(hbs.middleware({
   viewPath: __dirname + "/views"
 }));
