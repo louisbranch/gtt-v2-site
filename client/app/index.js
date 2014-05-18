@@ -20,6 +20,10 @@ App.addInitializer(function () {
   Backbone.history.start();
 });
 
+App.vent.on("navigate", function (path) {
+  Backbone.history.navigate(path, true);
+});
+
 App.vent.on("render:content", function (view) {
   layout.content.show(view);
 });
