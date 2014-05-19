@@ -15277,7 +15277,8 @@ require.register("./client/projects", function (exports, module) {
 var _ = require("jashkenas~underscore@1.6.0");
 var Backbone = require("jashkenas~backbone@1.1.2");
 var Project = require("./client/projects/model.js");
-var View = require("./client/projects/view.js");
+var CreateView = require("./client/projects/create.js");
+var ShowView = require("./client/projects/show.js");
 
 module.exports = Backbone.Router.extend({
 
@@ -15288,9 +15289,9 @@ module.exports = Backbone.Router.extend({
 
   routes: {
     "": "index",
-    "/projects": "index",
-    "/projects/new": "create",
-    "/projects/:name": "show"
+    "projects": "index",
+    "projects/new": "create",
+    "projects/:name": "show"
   },
 
   index: function () {
@@ -15303,13 +15304,20 @@ module.exports = Backbone.Router.extend({
   },
 
   show: function (name) {
+    var App = this.App
     var model = new Project({name: name});
-    //this.App.vent.trigger("render:content", view);
+    var view = new ShowView({model: model});
+
+    model.fetch({
+      success: function () {
+        App.vent.trigger("render:content", view);
+      }
+    })
   },
 
   create: function () {
     var model = new Project();
-    var view = new View({model: model});
+    var view = new CreateView({model: model});
     this.App.vent.trigger("render:content", view);
   }
 
@@ -15321,17 +15329,26 @@ require.register("./client/projects/model.js", function (exports, module) {
 var Backbone = require("jashkenas~backbone@1.1.2");
 
 module.exports = Backbone.Model.extend({
-  id: "name",
+  idAttribute: "name",
   urlRoot: "/projects"
 });
 
 });
 
-require.register("./client/projects/view.js", function (exports, module) {
+require.register("./client/projects/create.js", function (exports, module) {
 var Marionette = require("marionettejs~backbone.marionette@v1.8.5");
 
 module.exports = Marionette.ItemView.extend({
   template: "#template-project-form"
+});
+
+});
+
+require.register("./client/projects/show.js", function (exports, module) {
+var Marionette = require("marionettejs~backbone.marionette@v1.8.5");
+
+module.exports = Marionette.CompositeView.extend({
+  template: "#template-project-item"
 });
 
 });

@@ -1,7 +1,8 @@
 var _ = require("underscore");
 var Backbone = require("backbone");
 var Project = require("./model");
-var View = require("./view");
+var CreateView = require("./create");
+var ShowView = require("./show");
 
 module.exports = Backbone.Router.extend({
 
@@ -12,9 +13,9 @@ module.exports = Backbone.Router.extend({
 
   routes: {
     "": "index",
-    "/projects": "index",
-    "/projects/new": "create",
-    "/projects/:name": "show"
+    "projects": "index",
+    "projects/new": "create",
+    "projects/:name": "show"
   },
 
   index: function () {
@@ -27,13 +28,20 @@ module.exports = Backbone.Router.extend({
   },
 
   show: function (name) {
+    var App = this.App
     var model = new Project({name: name});
-    //this.App.vent.trigger("render:content", view);
+    var view = new ShowView({model: model});
+
+    model.fetch({
+      success: function () {
+        App.vent.trigger("render:content", view);
+      }
+    })
   },
 
   create: function () {
     var model = new Project();
-    var view = new View({model: model});
+    var view = new CreateView({model: model});
     this.App.vent.trigger("render:content", view);
   }
 

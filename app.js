@@ -13,6 +13,7 @@ var dashboard = require("./server/controllers/dashboard");
 var login = require("./server/controllers/login");
 var logout = require("./server/controllers/logout");
 var signup = require("./server/controllers/signup");
+var projects = require("./server/controllers/projects");
 
 // Middlewares ----------------------------- //
 
@@ -37,5 +38,7 @@ app.get("/logout", logout);
 
 app.get("/signup", signup.get);
 app.post("/signup", body(), signup.post);
+
+app.get("/projects/:id", auth, projects.get);
 
 app.listen(3000);
