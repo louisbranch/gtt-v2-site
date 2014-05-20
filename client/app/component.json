@@ -5,6 +5,7 @@
     "layout.js"
   ],
   "styles": [
+    "base.css"
   ],
   "locals": [
     "menu",

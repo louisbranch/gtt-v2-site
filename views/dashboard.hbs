@@ -3,17 +3,23 @@
   <div id="gtt-container"></div>
 </script>
 <script type="html/template" id="template-menu">
-  <nav class="pure-menu pure-menu-open pure-menu-horizontal">
-    <a href="/" class="pure-menu-heading">
-      <i class="fa fa-code-fork"></i>
-      gtt projects
-    </a>
-    <ul>
-      <% _.each(projects(), function(project) { %>
-        <li><a href="/projects/<%= project %>"><%= project %></a></li>
-      <% }); %>
-    </ul>
-    <a href="/logout">logout</a>
+  <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a href="/" class="navbar-brand">
+          <i class="fa fa-code-fork"></i>
+          gtt projects
+        </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <% _.each(projects(), function(project) { %>
+          <li><a href="/projects/<%= project %>"><%= project %></a></li>
+        <% }); %>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/logout">logout</a></li>
+      </ul>
+    </div>
   </nav>
 </script>
 <script type="html/template" id="template-project-form">
@@ -28,7 +34,7 @@
 <script type="html/template" id="template-project">
   <strong>name:</strong> <%= name %>
   <strong>rate:</strong> <%= currency %> <%= rate %>
-  <table>
+  <table class="table">
     <thead>
       <tr>
         <th>Day</th>
