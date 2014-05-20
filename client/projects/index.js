@@ -14,7 +14,7 @@ module.exports = Backbone.Router.extend({
     "": "index",
     "projects": "index",
     "projects/new": "create",
-    "projects/:name": "show"
+    "projects/:name": "show",
     "projects/:name/days": "show"
   },
 
@@ -29,15 +29,15 @@ module.exports = Backbone.Router.extend({
   },
 
   show: function (name) {
-    var App = this.App
+    var App = this.App;
     var model = new Project({name: name});
-    var view = new ShowView({model: model, collection: model.days});
 
     model.fetch({
       success: function () {
+        var view = new ShowView({model: model, collection: model.days});
         App.vent.trigger("render:content", view);
       }
-    })
+    });
   },
 
   create: function () {
