@@ -6,7 +6,7 @@
   <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a href="/" class="navbar-brand">
+        <a href="/#" class="navbar-brand">
           <i class="fa fa-git-square"></i>
           time tracker
         </a>
@@ -14,7 +14,7 @@
       <ul class="nav navbar-nav">
         <% _.each(projects(), function(project) { %>
           <li>
-            <a href="/projects/<%= project %>">
+            <a href="/#projects/<%= project %>">
               <i class="fa fa-circle" style="color: <%= color(project) %>"></i>
               <%= project %>
             </a>
@@ -37,18 +37,28 @@
   </form>
 </script>
 <script type="html/template" id="template-project">
-  <table class="table table-striped table-hover">
-    <thead>
-      <tr>
-        <th>Day</th>
-        <th>Start</th>
-        <th>End</th>
-        <th>Duration</th>
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-xs-3">
+      <div class="well">
+        <h3><%= name %></h3>
+        <strong>Rate: </strong> <%= currency %> <%= rate %>
+      </div>
+    </div>
+    <div class="col-xs-9">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </script>
 <script type="html/template" id="template-day">
   <td><%= day(start) %></td>
