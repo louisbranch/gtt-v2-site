@@ -2,9 +2,11 @@
   "name": "projects",
   "scripts": [
     "index.js",
-    "model.js",
-    "create.js",
-    "show.js"
+    "models/days.js",
+    "models/project.js",
+    "views/create.js",
+    "views/day.js",
+    "views/show.js"
   ],
   "styles": [
   ],
@@ -14,4 +16,3 @@
     "jashkenas/backbone": "^1.1.2"
   }
 }
-

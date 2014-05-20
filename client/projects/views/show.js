@@ -1,5 +1,9 @@
 var Marionette = require("backbone.marionette");
 
 module.exports = Marionette.CompositeView.extend({
-  template: "#template-project-item"
+  template: "#template-project",
+
+  itemView: Day,
+
+  itemViewContainer: "ul"
 });

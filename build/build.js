@@ -15276,15 +15276,14 @@ function stringToColor(str) {
 require.register("./client/projects", function (exports, module) {
 var _ = require("jashkenas~underscore@1.6.0");
 var Backbone = require("jashkenas~backbone@1.1.2");
-var Project = require("./client/projects/model.js");
-var CreateView = require("./client/projects/create.js");
-var ShowView = require("./client/projects/show.js");
+var Project = require("./client/projects/models/project.js");
+var CreateView = require("./client/projects/views/create.js");
+var ShowView = require("./client/projects/views/show.js");
 
 module.exports = Backbone.Router.extend({
 
   initialize: function (options) {
     this.App = options.App;
-    this.projects = window.GTT.projects;
   },
 
   routes: {
@@ -15295,7 +15294,8 @@ module.exports = Backbone.Router.extend({
   },
 
   index: function () {
-    var project = _.first(this.projects);
+    var projects = window.GTT.projects;
+    var project = _.first(projects);
     if (project) {
       this.App.vent.trigger("navigate", "/projects/" + project);
     } else {
@@ -15325,17 +15325,33 @@ module.exports = Backbone.Router.extend({
 
 });
 
-require.register("./client/projects/model.js", function (exports, module) {
+require.register("./client/projects/models/project.js", function (exports, module) {
 var Backbone = require("jashkenas~backbone@1.1.2");
+var Days = require("./client/projects/models/days.js");
 
 module.exports = Backbone.Model.extend({
   idAttribute: "name",
-  urlRoot: "/projects"
+
+  urlRoot: "/projects",
+
+  parse: function (response) {
+    this.days = new Days(response.days);
+    return response;
+  }
 });
 
 });
 
-require.register("./client/projects/create.js", function (exports, module) {
+require.register("./client/projects/models/days.js", function (exports, module) {
+var Backbone = require("jashkenas~backbone@1.1.2");
+
+module.exports = Backbone.Collection.extend({
+
+});
+
+});
+
+require.register("./client/projects/views/create.js", function (exports, module) {
 var Marionette = require("marionettejs~backbone.marionette@v1.8.5");
 
 module.exports = Marionette.ItemView.extend({
@@ -15344,7 +15360,7 @@ module.exports = Marionette.ItemView.extend({
 
 });
 
-require.register("./client/projects/show.js", function (exports, module) {
+require.register("./client/projects/views/show.js", function (exports, module) {
 var Marionette = require("marionettejs~backbone.marionette@v1.8.5");
 
 module.exports = Marionette.CompositeView.extend({

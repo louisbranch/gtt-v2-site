@@ -25,9 +25,13 @@
     <button type="submit">Save</button>
   </form>
 </script>
-<script type="html/template" id="template-project-item">
+<script type="html/template" id="template-project">
   <strong>name:</strong> <%= name %>
   <strong>rate:</strong> <%= currency %> <%= rate %>
+</script>
+<script type="html/template" id="template-day">
+  <%= start %>
+  <%= end %>
 </script>
 <script>
   window.GTT = {

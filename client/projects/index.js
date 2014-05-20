@@ -1,14 +1,13 @@
 var _ = require("underscore");
 var Backbone = require("backbone");
-var Project = require("./model");
-var CreateView = require("./create");
-var ShowView = require("./show");
+var Project = require("./models/project");
+var CreateView = require("./views/create");
+var ShowView = require("./views/show");
 
 module.exports = Backbone.Router.extend({
 
   initialize: function (options) {
     this.App = options.App;
-    this.projects = window.GTT.projects;
   },
 
   routes: {
@@ -16,10 +15,12 @@ module.exports = Backbone.Router.extend({
     "projects": "index",
     "projects/new": "create",
     "projects/:name": "show"
+    "projects/:name/days": "show"
   },
 
   index: function () {
-    var project = _.first(this.projects);
+    var projects = window.GTT.projects;
+    var project = _.first(projects);
     if (project) {
       this.App.vent.trigger("navigate", "/projects/" + project);
     } else {
@@ -30,7 +31,7 @@ module.exports = Backbone.Router.extend({
   show: function (name) {
     var App = this.App
     var model = new Project({name: name});
-    var view = new ShowView({model: model});
+    var view = new ShowView({model: model, collection: model.days});
 
     model.fetch({
       success: function () {
