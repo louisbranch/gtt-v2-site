@@ -63,8 +63,12 @@
 <script type="html/template" id="template-day">
   <td><%= day(start) %></td>
   <td><%= time(start) %></td>
-  <td><%= time(end) %></td>
-  <td><%= duration %></td>
+  <% if (typeof(end) != "undefined") { %>}
+    <td><%= time(end) %></td>
+  <% } %>
+  <% if (typeof(duration) != "undefined") { %>}
+    <td><%= duration %></td>
+  <% } %>
 </script>
 <script>
   window.GTT = {

@@ -1,2 +1,2 @@
 #!/bin/sh
-curl 'http://127.0.0.1:5984/replaypoker/_all_docs?include_docs=true' > may.json
+curl 'http://127.0.0.1:5984/gtt/_all_docs?include_docs=true' > invoice.json
